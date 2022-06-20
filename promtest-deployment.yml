@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promtest
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: promtest
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: promtest
+      annotations:
+        prometheus.io/scrape: "true"  # Set to "true" to have opentelemetry-collector automatically scrape the metrics
+        prometheus.io/port: "2112"
+    spec:
+      containers:
+      - name: promtest
+        image: docker.io/sebpon/promtest:1.1.0
+        ports:
+        - containerPort: 2112
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200M
+...
